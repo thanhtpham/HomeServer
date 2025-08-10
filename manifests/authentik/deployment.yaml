@@ -16,6 +16,26 @@ spec:
       containers:
         - name: authentik
           image: ghcr.io/goauthentik/server:latest
+          env:
+            - name: AUTHENTIK_POSTGRESQL__HOST
+              value: authentik-postgres
+            - name: AUTHENTIK_POSTGRESQL__PORT
+              value: "5432"
+            - name: AUTHENTIK_POSTGRESQL__USER
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-env
+                  key: POSTGRES_USER
+            - name: AUTHENTIK_POSTGRESQL__NAME
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-env
+                  key: POSTGRES_DB
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-env
+                  key: POSTGRES_PASSWORD
           envFrom:
             - secretRef:
                 name: authentik-env

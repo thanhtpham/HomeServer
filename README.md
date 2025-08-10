@@ -10,6 +10,7 @@ A simple, modular starter for running a home server on a single-node [K3s](https
 - **Homepage** – dashboard inspired by [gethomepage.dev](https://gethomepage.dev).
 - **AdGuard Home** – DNS and ad-blocking.
 - **WireGuard** – secure remote access.
+- **PostgreSQL** – external database backing Authentik.
 - **Authentik** – identity provider for authentication.
 
 ## Repository structure
@@ -46,8 +47,10 @@ The `charts/` directory is empty by default and can hold any Helm charts you wan
    ```
 
 4. **Prepare secrets**
+   Configure the Authentik secret key and PostgreSQL credentials, then create a Kubernetes secret:
    ```bash
    cp secrets/example.env secrets/authentik.env
+   # edit secrets/authentik.env and set strong values
    kubectl create secret generic authentik-env --from-env-file=secrets/authentik.env
    ```
 
@@ -61,6 +64,8 @@ The `secrets/` directory is ignored by Git. Use it to store environment files or
 
 ```
 AUTHENTIK_SECRET_KEY=changeme
+POSTGRES_DB=authentik
+POSTGRES_USER=authentik
 POSTGRES_PASSWORD=changeme
 ```
 
