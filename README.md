@@ -20,8 +20,10 @@ config/           # Service configuration samples (AdGuard Home, WireGuard)
 argocd/           # Argo CD application definition
 scripts/          # Helper installation scripts
 secrets/          # Local-only secrets (gitignored)
-charts/           # Optional Helm charts
+charts/           # Optional custom or third-party Helm charts
 ```
+
+The `charts/` directory is empty by default and can hold any Helm charts you want to manage with this repository—either your own or third-party charts pulled from Helm repositories.
 
 ## Quick start
 
@@ -31,7 +33,12 @@ charts/           # Optional Helm charts
    ```
 
 2. **Configure kubectl**
-   Ensure your kubeconfig points to the new K3s cluster.
+   K3s stores its kubeconfig at `/etc/rancher/k3s/k3s.yaml`. Copy it to your user directory and point `kubectl` to it:
+   ```bash
+   sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
+   sudo chown $(id -u):$(id -g) $HOME/.kube/config
+   export KUBECONFIG=$HOME/.kube/config
+   ```
 
 3. **Bootstrap Argo CD**
    ```bash
