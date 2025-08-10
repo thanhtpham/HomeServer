@@ -45,9 +45,10 @@ The `charts/` directory is empty by default and can hold any Helm charts you wan
    ```bash
    scripts/bootstrap_argocd.sh
    ```
+   The Argo CD UI becomes available via Traefik at `http://argocd.local`.
 
 4. **Prepare secrets**
-   Configure the Authentik secret key and PostgreSQL credentials, then create a Kubernetes secret:
+   Configure the Authentik secret key, bootstrap superuser, and PostgreSQL credentials, then create a Kubernetes secret:
    ```bash
    cp secrets/example.env secrets/authentik.env
    # edit secrets/authentik.env and set strong values
@@ -67,6 +68,9 @@ AUTHENTIK_SECRET_KEY=changeme
 POSTGRES_DB=authentik
 POSTGRES_USER=authentik
 POSTGRES_PASSWORD=changeme
+AUTHENTIK_BOOTSTRAP_SUPERUSER_EMAIL=admin@example.com
+AUTHENTIK_BOOTSTRAP_SUPERUSER_PASSWORD=changeme
+AUTHENTIK_BOOTSTRAP_SUPERUSER_USERNAME=admin
 ```
 
 Use it as a template for creating your own files that can be turned into Kubernetes secrets.
