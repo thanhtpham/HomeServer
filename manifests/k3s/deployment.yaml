@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k3s-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k3s-server
+  template:
+    metadata:
+      labels:
+        app: k3s-server
+    spec:
+      containers:
+        - name: k3s
+          image: rancher/k3s:v1.27.4-k3s1
+          command: ["server"]
+          args: ["--disable=traefik"]
+          ports:
+            - containerPort: 6443
