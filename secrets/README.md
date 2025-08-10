@@ -15,4 +15,4 @@ cp example.env argocd.env
 # bootstrap_argocd.sh reads this file when setting the password
 ```
 
-The sample `.env` includes Authentik's secret key, bootstrap superuser, PostgreSQL credentials, and an Argo CD admin password. Replace all placeholder values before creating Kubernetes secrets. Use a secure secret manager for production environments.
+The sample `.env` includes Authentik's secret key, bootstrap superuser, PostgreSQL connection details (host, port, database, user, password), and an Argo CD admin password. Replace all placeholder values before creating Kubernetes secrets. Use a secure secret manager for production environments.

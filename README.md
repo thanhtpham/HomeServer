@@ -43,16 +43,16 @@ The `charts/` directory is empty by default and can hold any Helm charts you wan
 
 3. **Prepare secrets**
    - **Authentik & PostgreSQL**
-     ```bash
-     cp secrets/example.env secrets/authentik.env
-     # edit secrets/authentik.env and set strong values
-     kubectl create secret generic authentik-env --from-env-file=secrets/authentik.env
-     ```
+       ```bash
+       cp secrets/example.env secrets/authentik.env
+       # edit secrets/authentik.env and set database host/port and strong credentials
+       kubectl create secret generic authentik-env --from-env-file=secrets/authentik.env
+       ```
    - **Argo CD admin password**
-     ```bash
-     cp secrets/example.env secrets/argocd.env
-     # keep only ARGOCD_ADMIN_PASSWORD and set a strong value
-     ```
+       ```bash
+       cp secrets/example.env secrets/argocd.env
+       # keep only ARGOCD_ADMIN_PASSWORD and set a strong value
+       ```
 
 4. **Bootstrap Argo CD**
    ```bash
@@ -74,6 +74,11 @@ AUTHENTIK_SECRET_KEY=changeme
 POSTGRES_DB=authentik
 POSTGRES_USER=authentik
 POSTGRES_PASSWORD=changeme
+AUTHENTIK_POSTGRESQL__HOST=authentik-postgres
+AUTHENTIK_POSTGRESQL__PORT=5432
+AUTHENTIK_POSTGRESQL__NAME=authentik
+AUTHENTIK_POSTGRESQL__USER=authentik
+AUTHENTIK_POSTGRESQL__PASSWORD=changeme
 AUTHENTIK_BOOTSTRAP_SUPERUSER_EMAIL=admin@example.com
 AUTHENTIK_BOOTSTRAP_SUPERUSER_PASSWORD=changeme
 AUTHENTIK_BOOTSTRAP_SUPERUSER_USERNAME=admin
