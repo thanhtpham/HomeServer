@@ -41,19 +41,25 @@ The `charts/` directory is empty by default and can hold any Helm charts you wan
    export KUBECONFIG=$HOME/.kube/config
    ```
 
-3. **Bootstrap Argo CD**
+3. **Prepare secrets**
+   - **Authentik & PostgreSQL**
+     ```bash
+     cp secrets/example.env secrets/authentik.env
+     # edit secrets/authentik.env and set strong values
+     kubectl create secret generic authentik-env --from-env-file=secrets/authentik.env
+     ```
+   - **Argo CD admin password**
+     ```bash
+     cp secrets/example.env secrets/argocd.env
+     # keep only ARGOCD_ADMIN_PASSWORD and set a strong value
+     ```
+
+4. **Bootstrap Argo CD**
    ```bash
    scripts/bootstrap_argocd.sh
    ```
    The Argo CD UI becomes available via Traefik at `http://argocd.local`.
-
-4. **Prepare secrets**
-   Configure the Authentik secret key, bootstrap superuser, and PostgreSQL credentials, then create a Kubernetes secret:
-   ```bash
-   cp secrets/example.env secrets/authentik.env
-   # edit secrets/authentik.env and set strong values
-   kubectl create secret generic authentik-env --from-env-file=secrets/authentik.env
-   ```
+   Default credentials: `admin` / the password from `secrets/argocd.env`.
 
 5. **Deploy manifests**
    - **GitOps**: Commit and push changes and let Argo CD sync.
@@ -71,6 +77,7 @@ POSTGRES_PASSWORD=changeme
 AUTHENTIK_BOOTSTRAP_SUPERUSER_EMAIL=admin@example.com
 AUTHENTIK_BOOTSTRAP_SUPERUSER_PASSWORD=changeme
 AUTHENTIK_BOOTSTRAP_SUPERUSER_USERNAME=admin
+ARGOCD_ADMIN_PASSWORD=changeme
 ```
 
 Use it as a template for creating your own files that can be turned into Kubernetes secrets.
